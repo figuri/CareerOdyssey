@@ -1,2 +1,2 @@
 # CareerOdyssey
-Resume cv portfolio building web application using javascript
+Stock market api.
