@@ -15,22 +15,23 @@ const UserSchema = new Schema({
         unique: true,
         match: [/.+@.+\..+/, 'Please enter a valid e-mail address']
     },
-  password: {
-    type: String,
-    trim: true,
-    required: 'Password is Required',
-    validate: [({ length }) => length >= 6, 'Password should be longer.']
-  },
-  fullname: {
-    type: String,
-    trim: true,
-    required: 'Full Name is Required'
-  },
-  bio: {
-    type: String
-  },
-  savedStocks: [{
-    type: Schema.Types.ObjectId, ref: 'UserStock' }]
+    password: {
+        type: String,
+        trim: true,
+        required: 'Password is Required',
+        validate: [({ length }) => length >= 6, 'Password should be longer.']
+    },
+    fullname: {
+        type: String,
+        trim: true,
+        required: 'Full Name is Required'
+    },
+    bio: {
+        type: String
+    },
+    savedStocks: [{
+        type: Schema.Types.ObjectId, ref: 'UserStock'
+    }]
 });
 
 const User = mongoose.model('User', UserSchema);
