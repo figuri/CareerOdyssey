@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require('../models');
 
 // create controller for user
 
@@ -52,3 +52,5 @@ const userController = {
             .catch(err => res.status(400).json(err));
     }
 };
+
+module.exports = userController;
