@@ -52,3 +52,5 @@ const newsController = {
             .catch(err => res.status(400).json(err));
     }
 };
+
+module.exports = newsController;

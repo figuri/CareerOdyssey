@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const stockController = require('../../controllers/stock-cntrl');
+const stockController = require('../controllers/stock-cntrl');
 
 // define stock routes
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const marketController = require('../../controllers/market-cntrl');
+const marketController = require('../controllers/market-cntrl');
 
 // define routes for market
 

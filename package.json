@@ -1,11 +1,11 @@
 {
   "name": "careerodyssey",
   "version": "1.0.0",
-  "description": "Resume cv portfolio building web application using javascript",
-  "main": "index.js",
+  "description": "stock web api",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server/server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
     "bcrypt": "^5.1.1",
     "express": "^4.18.2",
     "jest": "^29.7.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.3"
   }
 }

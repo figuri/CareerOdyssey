@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const userStockController = require('../../controllers/userstock-cntrl');
+const userStockController = require('../controllers/userstock-cntrl');
 
 // define routes for userStock
 
