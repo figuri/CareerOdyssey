@@ -36,3 +36,7 @@ const StockSchema = new Schema({
     // store historical prices in an array of objects
     historicalPrices: [priceSchema]
 });
+
+const Stock = mongoose.model('Stock', StockSchema);
+
+module.exports = Stock;

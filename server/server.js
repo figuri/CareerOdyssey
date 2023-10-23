@@ -17,6 +17,12 @@ const routes = require('./routes');
 // turn on routes
 app.use(routes);
 
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
+
 // default response for any other request (not found)
 app.use((req, res) => {
     res.status(404).send('<h1>404 Error!</h1>');
