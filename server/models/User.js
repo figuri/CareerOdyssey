@@ -19,7 +19,7 @@ const UserSchema = new Schema({
         type: String,
         trim: true,
         required: 'Password is Required',
-        validate: [({ length }) => length >= 6, 'Password should be longer.']
+        validate: [({ length }) => length >= 8, 'Password should be longer.']
     },
     fullname: {
         type: String,
@@ -32,6 +32,18 @@ const UserSchema = new Schema({
     savedStocks: [{
         type: Schema.Types.ObjectId, ref: 'UserStock'
     }]
+});
+
+// hash user password before saving to database
+UserSchema.pre('save', async function (next) {
+    try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(this.password, salt);
+        this.password = hashedPassword;
+        next();
+    } catch (error) {
+        next(error);
+    }
 });
 
 const User = mongoose.model('User', UserSchema);
