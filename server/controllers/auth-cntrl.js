@@ -4,54 +4,54 @@ const User = require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-async function register(req, res) {
-    try {
-        const { username, email, password } = req.body;
 
-        // check if user already exists in db
-        const existingUser = await User.findOne({ email });
-        if(existingUser) {
-            return res.status(400).json({ message: 'User already exists!' });
+const authController = {
+    async register(req, res) {
+        try {
+            const { username, email, password } = req.body;
+
+            // check if user already exists in db
+            const existingUser = await User.findOne({ email });
+            if (existingUser) {
+                return res.status(400).json({ message: 'User already exists!' });
+            }
+            // create new user
+            const newUser = await User.create({ username, email, password });
+            await newUser.save();
+
+            // create token
+            const token = jwt.sign({ userId: newUser._id }, 'secret key', { expiresIn: '1h' });
+
+            res.status(201).json({ user: newUser, token });
+        } catch (error) {
+            res.status(500).json({ message: 'Something went wrong!' });
         }
-        // create new user
-        const newUser = await User.create({ username, email, password });
-        await newUser.save();
+    },
 
-        // create token
-        const token = jwt.sign({ userId: newUser._id }, 'secret key', {expiresIn: '1h'});
+    async login(req, res) {
+        try {
+            const { email, password } = req.body;
 
-        res.status(201).json({ user: newUser, token });
-    } catch (error) {
-        res.status(500).json({ message: 'Something went wrong!'});
-    }
-}
+            // find user by email
+            const user = await User.findOne({ email });
+            if (!user) {
+                return res.status(404).json({ message: 'invalid email or password.' });
+            }
 
-async function login(req, res) {
-    try {
-        const { email, password } = req.body;
+            // compare password in request with hashed password in db
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            if (!isPasswordValid) {
+                return res.status(404).json({ message: 'invalid email or password.' });
+            }
 
-        // find user by email
-        const user = await User.findOne({ email });
-        if(!user) {
-            return res.status(404).json({ message: 'invalid email or password.' });
+            // create token
+            const token = jwt.sign({ userId: user._id }, 'secret key', { expiresIn: '1h' });
+
+            res.status(200).json({ user, token });
+        } catch (error) {
+            res.status(500).json({ message: 'Something went wrong!' });
         }
-
-        // compare password in request with hashed password in db
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if(!isPasswordValid) {
-            return res.status(404).json({ message: 'invalid email or password.' });
-        }
-
-        // create token
-        const token = jwt.sign({ userId: user._id}, 'secret key', { expiresIn: '1h' });
-
-        res.status(200).json({ user, token });
-    } catch (error) {
-        res.status(500).json({ message: 'Something went wrong!'});
     }
 };
 
-module.exports = {
-    register,
-    login
-};
+module.exports = authController;
