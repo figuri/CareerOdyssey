@@ -1,18 +1,22 @@
-const Stock = require('../models');
+const Stock = require('../models/Stock');
 
 // controller for stock
 
 const stockController = {
     // crud routes for stock
     createStock({ body }, res) {
-        Stock.create(body)
-            .then(dbStock => {
-                if (!dbStock) {
-                    res.status(404).json({ message: 'No stock found with this id!' });
-                    return;
-                }
-            })
-            .catch(err => res.status(400).json(err));
+        Stock.findOneAndUpdate(
+            { symbol: body.symbol }, 
+            body, 
+            { upsert: true, new: true, runValidators: true }
+        )
+        .then(dbStock => {
+            res.json(dbStock);
+        })
+        .catch(err => {
+            console.error('Error creating/updating stock:', err);
+            res.status(400).json(err);
+        });
     },
     getAllStocks(req, res) {
         Stock.find({})
