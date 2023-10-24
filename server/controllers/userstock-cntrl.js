@@ -1,4 +1,5 @@
-const UserStock = require('../models');
+const UserStock = require('../models/UserStock');
+const mongoose = require('mongoose');
 
 // controller for userstock
 
@@ -8,7 +9,10 @@ const userstockController = {
     createUserStock({ body }, res) {
         UserStock.create(body)
             .then(dbUserStock => res.json(dbUserStock))
-            .catch(err => res.status(400).json(err));
+            .catch(err => {
+                console.error('Error creating userstock:', err);
+                res.status(400).json(err);
+            });
     },
     getAllUserStocks(req, res) {
         UserStock.find({})
