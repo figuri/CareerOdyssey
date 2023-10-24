@@ -23,7 +23,10 @@ const MarketSchema = new Schema({
     },
 // change type will be either positive or negative
     changeType: {
-        type: String, required: true
+        type: String, 
+        enum: ['positive', 'negative', 'neutral'], 
+        default: 'neutral' ,
+        required: true
     }
 });
 

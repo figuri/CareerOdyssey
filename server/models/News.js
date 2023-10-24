@@ -22,7 +22,7 @@ const NewsSchema = new Schema({
     },
 
     stockSymbol: {
-        type: String, required: true
+        type: String, required: false
     },
 
     source: {

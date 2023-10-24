@@ -1,4 +1,4 @@
-const Market = require('../models');
+const Market = require('../models/Market');
 
 // controller for market
 
